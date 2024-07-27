@@ -6,8 +6,8 @@
   ],
   "scripts": {
     "start:dev": "lerna run build && lerna run start:dev",
-    "prisma:generate": "npx prisma generate",
-    "prisma:migrate": "npx prisma migrate dev"
+    "prisma:migrate": "dotenv -e ./database/.env -- prisma migrate dev",
+    "prisma:generate": "dotenv -e ./database/.env -- prisma generate"
   },
   "dependencies": {},
   "devDependencies": {

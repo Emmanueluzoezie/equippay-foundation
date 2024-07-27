@@ -17,8 +17,12 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
-    "composite": true,
-    "rootDir": "./src"
+    "paths": {
+      "shared/*": ["../shared/src"]
+    }
   },
-  "include": ["src/**/*"]
+  "include": ["src"],
+  "references": [
+    { "path": "../shared" }
+  ]
 }

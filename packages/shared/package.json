@@ -1,15 +1,18 @@
 {
   "name": "shared",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prisma:generate": "prisma generate --schema=../../database/prisma/schema.prisma"
+    "prisma:migrate": "dotenv -e ./database/.env -- prisma migrate dev --schema=./database/prisma/schema.prisma",
+    "prisma:generate": "dotenv -e ./database/.env -- prisma generate --schema=./database/prisma/schema.prisma",
+    "build": "tsc -b"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Shared modules for equippay-protocol",
   "dependencies": {
     "@nestjs/core": "^10.3.10",
     "@prisma/client": "^5.17.0",

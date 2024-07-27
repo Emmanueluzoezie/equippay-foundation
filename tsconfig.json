@@ -1,0 +1,10 @@
+{
+    "files": [],
+    "references": [
+      { "path": "packages/shared" },
+      { "path": "packages/auth" },
+      { "path": "packages/borrowers" },
+      { "path": "packages/lenders" },
+      { "path": "packages/sdk" }
+    ]
+  }

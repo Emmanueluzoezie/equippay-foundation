@@ -1,11 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import * as crypto from 'crypto';
+import * as crypto from 'crypto'; 
 
 @Injectable()
 export class EncryptionService {
   private algorithm = 'aes-256-cbc';
-  private key = Buffer.from(process.env.ENCRYPTION_KEY, 'hex');
+  private key: Buffer;
   private ivLength = 16;
+
+  constructor() {
+    const encryptionKey = process.env.ENCRYPTION_KEY;
+    if (!encryptionKey) {
+      throw new Error('ENCRYPTION_KEY environment variable is not set');
+    }
+    this.key = Buffer.from(encryptionKey, 'hex');
+  }
 
   encrypt(text: string): string {
     const iv = crypto.randomBytes(this.ivLength);

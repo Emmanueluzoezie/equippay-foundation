@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Project } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
+import { UsersService } from './user.service';
+import { PrismaService } from './prisma.service';
 import { EncryptionService } from './encription.service';
-import { CreateProjectDto, UsersService, PrismaService } from '../index';
+import { CreateProjectDto } from 'src/dto/project.dto';
 
 @Injectable()
 export class ProjectService {
