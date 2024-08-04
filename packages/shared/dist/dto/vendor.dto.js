@@ -11,17 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CreateVendorDto = void 0;
 const class_validator_1 = require("class-validator");
-const class_transformer_1 = require("class-transformer");
 class CreateVendorDto {
 }
 exports.CreateVendorDto = CreateVendorDto;
 __decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], CreateVendorDto.prototype, "fullName", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateVendorDto.prototype, "shopName", void 0);
 __decorate([
@@ -34,16 +33,17 @@ __decorate([
 ], CreateVendorDto.prototype, "wallet", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateVendorDto.prototype, "location", void 0);
 __decorate([
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsPhoneNumber)(),
     __metadata("design:type", String)
 ], CreateVendorDto.prototype, "phoneNumber", void 0);
 __decorate([
+    (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], CreateVendorDto.prototype, "email", void 0);
 __decorate([
@@ -52,18 +52,17 @@ __decorate([
 ], CreateVendorDto.prototype, "status", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], CreateVendorDto.prototype, "businessType", void 0);
 __decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsObject)(),
-    (0, class_transformer_1.Type)(() => Object),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Object)
 ], CreateVendorDto.prototype, "socialMedia", void 0);
 __decorate([
-    (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsObject)(),
-    (0, class_transformer_1.Type)(() => Object),
+    (0, class_validator_1.IsOptional)(),
     __metadata("design:type", Object)
 ], CreateVendorDto.prototype, "operatingHours", void 0);
 //# sourceMappingURL=vendor.dto.js.map

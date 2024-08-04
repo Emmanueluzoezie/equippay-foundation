@@ -1,4 +1,105 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Vendor } from '@prisma/client';
+import { EncryptionService, PrismaService, ProjectService, CreateVendorDto } from 'shared';
 
 @Injectable()
-export class VendorService {}
+export class VendorService {
+    constructor(
+        private prisma: PrismaService,
+        private projectService: ProjectService,
+        private encryptionService: EncryptionService
+    ) { }
+
+    async createVendor(apiKey: string, createVendorDto: CreateVendorDto): Promise<Vendor> {
+        console.log('Creating vendor with API key:', apiKey);
+
+        try {
+            console.log("Started..")
+            const project = await this.projectService.getProject(apiKey);
+        console.log('Project found:', project.id);
+
+        const vendorData = {
+            fullName: createVendorDto.fullName,
+            shopName: createVendorDto.shopName,
+            description: createVendorDto.description,
+            wallet: createVendorDto.wallet,
+            location: createVendorDto.location,
+            phoneNumber: createVendorDto.phoneNumber,
+            email: createVendorDto.email,
+            status: createVendorDto.status,
+            businessType: createVendorDto.businessType,
+            socialMedia: createVendorDto.socialMedia,
+            operatingHours: createVendorDto.operatingHours,
+            project: {
+                connect: { id: project.id }
+            }
+        };
+
+            const vendor = await this.prisma.vendor.create({
+                data: vendorData
+            });
+            console.log('Vendor created:', vendor.id);
+            return vendor;
+        } catch (error) {
+            console.error('Error creating vendor:', error);
+            throw error;
+        }
+    }
+
+    async getVendors(apiKey: string): Promise<Vendor[]> {
+        console.log('Getting vendors with API key:', apiKey);
+        const project = await this.projectService.getProject(apiKey);
+        console.log('Project found:', project.id);
+
+        try {
+            const vendors = await this.prisma.vendor.findMany({
+                where: { projectId: project.id }
+            });
+            console.log('Vendors found:', vendors.length);
+            return vendors;
+        } catch (error) {
+            console.error('Error getting vendors:', error);
+            throw error;
+        }
+    }
+
+    async getVendor(apiKey: string, vendorId: string): Promise<Vendor | null> {
+        console.log('Getting vendor with API key:', apiKey, 'and vendor ID:', vendorId);
+        const project = await this.projectService.getProject(apiKey);
+        console.log('Project found:', project.id);
+
+        try {
+            const vendor = await this.prisma.vendor.findFirst({
+                where: {
+                    projectId: project.id,
+                    id: vendorId
+                }
+            });
+            console.log('Vendor found:', vendor?.id);
+            return vendor;
+        } catch (error) {
+            console.error('Error getting vendor:', error);
+            throw error;
+        }
+    }
+
+    async deleteVendor(apiKey: string, vendorId: string): Promise<Vendor> {
+        console.log('Deleting vendor with API key:', apiKey, 'and vendor ID:', vendorId);
+        const project = await this.projectService.getProject(apiKey);
+        console.log('Project found:', project.id);
+
+        try {
+            const vendor = await this.prisma.vendor.delete({
+                where: { 
+                    id: vendorId,
+                    projectId: project.id
+                }
+            });
+            console.log('Vendor deleted:', vendor.id);
+            return vendor;
+        } catch (error) {
+            console.error('Error deleting vendor:', error);
+            throw error;
+        }
+    }
+} 

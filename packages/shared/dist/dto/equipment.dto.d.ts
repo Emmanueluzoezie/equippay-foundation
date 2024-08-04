@@ -16,3 +16,7 @@ export declare class CreateEquipmentDto {
     vendorId: string;
     insuranceId?: string;
 }
+export declare class GetEquipmentDto {
+    equipmentId: string;
+    vendorId: string;
+}

@@ -69,3 +69,11 @@ export class CreateEquipmentDto {
     @IsUUID()
     insuranceId?: string;
 }
+
+export class GetEquipmentDto {
+    @IsUUID()
+    equipmentId: string;
+
+    @IsUUID()
+    vendorId: string;
+}

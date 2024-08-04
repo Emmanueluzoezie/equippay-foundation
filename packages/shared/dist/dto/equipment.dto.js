@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateEquipmentDto = void 0;
+exports.GetEquipmentDto = exports.CreateEquipmentDto = void 0;
 const class_validator_1 = require("class-validator");
 const class_transformer_1 = require("class-transformer");
 class CreateEquipmentDto {
@@ -98,4 +98,15 @@ __decorate([
     (0, class_validator_1.IsUUID)(),
     __metadata("design:type", String)
 ], CreateEquipmentDto.prototype, "insuranceId", void 0);
+class GetEquipmentDto {
+}
+exports.GetEquipmentDto = GetEquipmentDto;
+__decorate([
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", String)
+], GetEquipmentDto.prototype, "equipmentId", void 0);
+__decorate([
+    (0, class_validator_1.IsUUID)(),
+    __metadata("design:type", String)
+], GetEquipmentDto.prototype, "vendorId", void 0);
 //# sourceMappingURL=equipment.dto.js.map

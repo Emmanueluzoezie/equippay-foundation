@@ -1,13 +1,12 @@
-import { IsString, IsOptional, IsEmail, IsBoolean, IsObject, IsPhoneNumber } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsString, IsOptional, IsBoolean, IsObject } from 'class-validator';
 
 export class CreateVendorDto {
-    @IsOptional()
     @IsString()
-    fullName?: string;
+    fullName: string;
 
     @IsString()
-    shopName: string;
+    @IsOptional()
+    shopName?: string;
 
     @IsString()
     description: string;
@@ -16,29 +15,29 @@ export class CreateVendorDto {
     wallet: string;
 
     @IsString()
-    location: string;
-
     @IsOptional()
-    @IsPhoneNumber()
+    location?: string;
+
+    @IsString()
+    @IsOptional()
     phoneNumber?: string;
 
+    @IsString()
     @IsOptional()
-    @IsEmail()
     email?: string;
 
     @IsBoolean()
     status: boolean;
 
     @IsString()
-    businessType: string;
-
     @IsOptional()
-    @IsObject()
-    @Type(() => Object)
-    socialMedia?: Record<string, string>;
+    businessType?: string;
 
-    @IsOptional()
     @IsObject()
-    @Type(() => Object)
-    operatingHours?: Record<string, string>;
+    @IsOptional()
+    socialMedia?: Record<string, any>;
+
+    @IsObject()
+    @IsOptional()
+    operatingHours?: Record<string, any>;
 }

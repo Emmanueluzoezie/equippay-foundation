@@ -1,0 +1,37 @@
+{
+  "name": "@equippay/vendor",
+  "version": "1.0.0",
+  "description": "Vendor SDK for Equippay Protocol",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "equippay",
+    "sdk",
+    "solana",
+    "blockchain",
+    "defi",
+    "equipment-financing",
+    "react"
+  ],
+  "author": "Emmanuel uzoezie",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.7.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "@types/react": "^17.0.0",
+    "react": "^17.0.0",
+    "typescript": "^4.2.3"
+  }
+}

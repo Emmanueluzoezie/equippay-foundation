@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Project } from '@prisma/client';
 import { v4 as uuidv4 } from 'uuid';
 import { UsersService } from './user.service';
@@ -54,18 +54,32 @@ export class ProjectService {
           }));
     }
 
-    // get Project info using the API KEY
     async getProject(apiKey: string): Promise<Project>{
-        const project = await this.prisma.project.findFirst({
-            where: {
-                apiKey: this.encryptionService.encrypt(apiKey)
-            }
-        })
+        console.log('Getting project with API key:', apiKey);
+        try {
+            const encryptedApiKey = this.encryptionService.encrypt(apiKey);
+            console.log('Encrypted API key:', encryptedApiKey);
 
-        return {
-            ...project,
-            // decrypting the encrypted api key
-            apiKey: this.encryptionService.decrypt(project.apiKey),
-          };
+            const project = await this.prisma.project.findUnique({
+                where: {
+                    apiKey: encryptedApiKey
+                }
+            });
+
+            console.log('Project found:', project);
+
+            if (!project) {
+                throw new NotFoundException(`Project not found for API key: ${apiKey}`);
+            }
+
+            return {
+                ...project,
+                // decrypting the encrypted api key
+                apiKey: this.encryptionService.decrypt(project.apiKey),
+            };
+        } catch (error) {
+            console.error('Error in getProject:', error);
+            throw error;
+        }
     }
 }

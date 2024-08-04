@@ -54,15 +54,28 @@ let ProjectService = class ProjectService {
         }));
     }
     async getProject(apiKey) {
-        const project = await this.prisma.project.findFirst({
-            where: {
-                apiKey: this.encryptionService.encrypt(apiKey)
+        console.log('Getting project with API key:', apiKey);
+        try {
+            const encryptedApiKey = this.encryptionService.encrypt(apiKey);
+            console.log('Encrypted API key:', encryptedApiKey);
+            const project = await this.prisma.project.findUnique({
+                where: {
+                    apiKey: encryptedApiKey
+                }
+            });
+            console.log('Project found:', project);
+            if (!project) {
+                throw new common_1.NotFoundException(`Project not found for API key: ${apiKey}`);
             }
-        });
-        return {
-            ...project,
-            apiKey: this.encryptionService.decrypt(project.apiKey),
-        };
+            return {
+                ...project,
+                apiKey: this.encryptionService.decrypt(project.apiKey),
+            };
+        }
+        catch (error) {
+            console.error('Error in getProject:', error);
+            throw error;
+        }
     }
 };
 exports.ProjectService = ProjectService;
