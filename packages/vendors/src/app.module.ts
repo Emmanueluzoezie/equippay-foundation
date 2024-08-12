@@ -7,6 +7,7 @@ import { VendorService } from './vendor/vendor.service';
 import { VendorModule } from './vendor/vendor.module';
 import { EquipmentModule } from './equipment/equipment.module';
 import { PaymentsModule } from './payments/payments.module';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { PaymentsModule } from './payments/payments.module';
       envFilePath: join(__dirname, '../../../database/.env'),
     }),
   ],
+  controllers: [HealthController],
   providers: [PrismaService, EquipmentService, VendorService],
 })
 export class AppModule {}

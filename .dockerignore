@@ -1,0 +1,6 @@
+node_modules
+npm-debug.log
+# Do not ignore the Prisma schema and necessary directories
+!database
+!packages
+!prisma

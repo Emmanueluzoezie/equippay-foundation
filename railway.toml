@@ -1,0 +1,35 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "node start-services.js"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+
+[[services]]
+name = "auth"
+healthcheck = "/health"
+port = 3005
+
+[[services]]
+name = "vendors"
+healthcheck = "/health"
+port = 3007
+
+[[services]]
+name = "lenders"
+healthcheck = "/health"
+port = 3008
+
+[[services]]
+name = "borrowers"
+healthcheck = "/health"
+port = 3006
+
+[deploy.healthcheck]
+path = "/health"
+interval = "30s"
+timeout = "15s"
+retries = 5
+start_period = "60s"

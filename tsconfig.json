@@ -3,8 +3,8 @@
     "references": [
       { "path": "packages/shared" },
       { "path": "packages/auth" },
-      { "path": "packages/vendors" }
-      // { "path": "packages/lenders" },
-      // { "path": "packages/sdk" }
+      { "path": "packages/vendors" },
+      { "path": "packages/lenders" },
+      { "path": "packages/borrower" }
     ]
   }

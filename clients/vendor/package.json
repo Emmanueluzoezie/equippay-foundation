@@ -4,6 +4,10 @@
   "description": "Vendor SDK for Equippay Protocol",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./types": "./dist/types/index.js"
+  },
   "files": [
     "dist"
   ],
@@ -23,6 +27,8 @@
   "author": "Emmanuel uzoezie",
   "license": "MIT",
   "dependencies": {
+    "@nestjs/config": "^3.2.3",
+    "@prisma/client": "^5.17.0",
     "axios": "^1.7.3"
   },
   "peerDependencies": {
@@ -32,6 +38,6 @@
     "@types/node": "^14.14.31",
     "@types/react": "^17.0.0",
     "react": "^17.0.0",
-    "typescript": "^4.2.3"
+    "typescript": "^5.5.4"
   }
 }

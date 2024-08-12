@@ -4,11 +4,11 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "build": "prisma generate --schema=../../database/prisma/schema.prisma && tsc -b",
     "test": "echo \"Error: no test specified\" && exit 1",
     "prisma:migrate": "dotenv -e ../../database/.env -- prisma migrate dev --schema=../../database/prisma/schema.prisma",
     "prisma:generate": "npx dotenv -e ../../database/.env -- prisma generate --schema=../../database/prisma/schema.prisma",
-    "prisma:migrate:reset": "dotenv -e ../../database/.env -- prisma migrate reset --schema=../../database/prisma/schema.prisma --force",
-    "build": "tsc -b"
+    "prisma:migrate:reset": "dotenv -e ../../database/.env -- prisma migrate reset --schema=../../database/prisma/schema.prisma --force"
   },
   "keywords": [],
   "author": "",
