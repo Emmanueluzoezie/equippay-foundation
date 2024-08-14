@@ -1,5 +1,5 @@
-import { ApiClient } from '../utils/api';
-import { Equipment } from '../types';
+import { ApiClient } from '../../utils/api';
+import { Equipment } from '../../types';
 
 export class EquipmentService {
   constructor(private apiClient: ApiClient) {}

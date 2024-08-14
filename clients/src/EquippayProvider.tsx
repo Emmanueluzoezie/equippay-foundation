@@ -16,7 +16,7 @@ interface EquippayProviderProps {
 export const EquippayProvider: React.FC<EquippayProviderProps> = ({ 
   children, 
   apiKey, 
-  baseURL = 'https://api.equippay.io'
+  baseURL = 'https://partpay.io'
 }) => {
   const sdk = new EquippaySDK(baseURL, apiKey);
 

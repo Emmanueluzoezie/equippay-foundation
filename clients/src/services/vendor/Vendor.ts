@@ -1,5 +1,6 @@
-import { ApiClient } from '../utils/api';
-import { Vendor } from '../types';
+import { Vendor } from "../../types";
+import { ApiClient } from "../../utils/api";
+
 
 export class VendorService {
   constructor(private apiClient: ApiClient) {}

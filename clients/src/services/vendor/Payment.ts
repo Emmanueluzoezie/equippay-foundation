@@ -1,5 +1,6 @@
-import { ApiClient } from '../utils/api';
-import { PaymentAction, SolanaPayUrl } from '../types';
+import { PaymentAction, SolanaPayUrl } from "../../types";
+import { ApiClient } from "../../utils/api";
+
 
 export class PaymentService {
   constructor(private apiClient: ApiClient) {}
