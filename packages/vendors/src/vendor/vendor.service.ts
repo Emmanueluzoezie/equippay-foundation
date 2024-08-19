@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Vendor } from '@prisma/client';
 import { EncryptionService, PrismaService, ProjectService, CreateVendorDto } from 'shared';
+import { createCoreCollection } from '../utils/createCollection';
+import { CreateCollection } from '../types/nftCreationTypes';
 
 @Injectable()
 export class VendorService {
@@ -11,29 +13,40 @@ export class VendorService {
     ) { }
 
     async createVendor(apiKey: string, createVendorDto: CreateVendorDto): Promise<Vendor> {
-        console.log('Creating vendor with API key:', apiKey);
 
         try {
-            console.log("Started..")
             const project = await this.projectService.getProject(apiKey);
-        console.log('Project found:', project.id);
 
-        const vendorData = {
-            fullName: createVendorDto.fullName,
-            shopName: createVendorDto.shopName,
-            description: createVendorDto.description,
-            wallet: createVendorDto.wallet,
-            location: createVendorDto.location,
-            phoneNumber: createVendorDto.phoneNumber,
-            email: createVendorDto.email,
-            status: createVendorDto.status,
-            businessType: createVendorDto.businessType,
-            socialMedia: createVendorDto.socialMedia,
-            operatingHours: createVendorDto.operatingHours,
-            project: {
-                connect: { id: project.id }
-            }
-        };
+            const vendorMetadata: CreateCollection = {
+                fullName: createVendorDto.fullName,
+                shopName: createVendorDto.shopName,
+                description: createVendorDto.description,
+                wallet: createVendorDto.wallet,
+                businessType: createVendorDto.businessType,
+                image: ""
+            };
+
+            const collection = await createCoreCollection(vendorMetadata)
+
+            const vendorData = {
+                fullName: createVendorDto.fullName,
+                shopName: createVendorDto.shopName,
+                description: createVendorDto.description,
+                wallet: createVendorDto.wallet,
+                location: createVendorDto.location,
+                phoneNumber: createVendorDto.phoneNumber,
+                email: createVendorDto.email,
+                status: createVendorDto.status,
+                businessType: createVendorDto.businessType,
+                socialMedia: createVendorDto.socialMedia,
+                operatingHours: createVendorDto.operatingHours,
+                transaction: collection.transaction,
+                collectionPubkey: collection.collection.publicKey,
+                uri: collection.uri,
+                project: {
+                    connect: { id: project.id }
+                }
+            };
 
             const vendor = await this.prisma.vendor.create({
                 data: vendorData
@@ -90,7 +103,7 @@ export class VendorService {
 
         try {
             const vendor = await this.prisma.vendor.delete({
-                where: { 
+                where: {
                     id: vendorId,
                     projectId: project.id
                 }

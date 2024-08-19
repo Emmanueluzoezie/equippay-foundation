@@ -40,6 +40,15 @@ export class CreateEquipmentDto {
     @IsString()
     currency: string;
 
+    @IsString()
+    assetPubkey: string;
+
+    @IsString()
+    uri: string;
+
+    @IsString()
+    transaction: string;
+
     @IsInt()
     @Min(0)
     @Type(() => Number)

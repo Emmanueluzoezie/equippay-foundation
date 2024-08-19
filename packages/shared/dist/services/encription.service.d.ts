@@ -1,8 +1,6 @@
 export declare class EncryptionService {
-    private algorithm;
-    private key;
-    private iv;
+    private encryptionKey;
     constructor();
-    encrypt(text: string): string;
-    decrypt(text: string): string;
+    encrypt(apiKey: string): string;
+    decrypt(encryptedApiKey: string): string;
 }

@@ -35,24 +35,33 @@ export class ProjectService {
         return project
     }
 
-    async getAllUserProject(email: string): Promise<Project[]>{
-
-        const user = await this.user.getUserByEmail(email)
-        if(!user){
-            throw new Error("User is not found")
+    async getAllUserProject(email: string): Promise<Project[]> {
+        const user = await this.user.getUserByEmail(email);
+        if (!user) {
+          throw new Error("User is not found");
         }
-
+      
         const projects = await this.prisma.project.findMany({
-            where: {
-                userId: user.id
-            }
-        })
-
-        return projects.map(project => ({
-            ...project,
-            apiKey: this.encryptionService.decrypt(project.apiKey),
-          }));
-    }
+          where: {
+            userId: user.id
+          }
+        });
+      
+        return projects.map(project => {
+          try {
+            return {
+              ...project,
+              apiKey: this.encryptionService.decrypt(project.apiKey),
+            };
+          } catch (error) {
+            console.error(`Failed to decrypt API key for project ${project.id}:`, error);
+            return {
+              ...project,
+              apiKey: 'DECRYPTION_FAILED',
+            };
+          }
+        });
+      }
 
     async getProject(apiKey: string): Promise<Project>{
         console.log('Getting project with API key:', apiKey);

@@ -3,6 +3,8 @@ import { CreateEquipmentDto, PrismaService, GetEquipmentDto, ProjectService } fr
 import { VendorService } from '../vendor/vendor.service';
 import { Equipment } from "@prisma/client";
 import { ActionGetResponse } from '@solana/actions';
+import { CreateNft } from '../types/nftCreationTypes';
+import { createNft } from '../utils/createNft';
 
 @Injectable()
 export class EquipmentService {
@@ -20,10 +22,32 @@ export class EquipmentService {
     }
 
     async addEquipment(apiKey: string, data: CreateEquipmentDto): Promise<Equipment>  {
-        console.log("startyyy")
         await this.validateApiKey(apiKey);
         
         const vendor = await this.vendorService.getVendor(apiKey, data.vendorId);
+
+        const equipmentMetadata: CreateNft = {
+            equipmentName: data.equipmentName,
+                description: data.description,
+                sku: data.sku,
+                category: data.category,
+                brand: data.brand,
+                oneOffPrice: data.oneOffPrice,
+                installmentPrice: data.installmentPrice,
+                numberOfInstallments: data.numberOfInstallments,
+                currency: data.currency,
+                stockQuantity: data.stockQuantity,
+                isActive: data.isActive,
+                images: data.images,
+                weight: data.weight,
+                dimensions: data.dimensions,
+                image: data.images[0],
+                collectionPubkey: vendor.collectionPubkey,
+                wallet: vendor.wallet
+        };
+
+        const nftCreation = await createNft(equipmentMetadata)
+
         if (!vendor) {
             throw new NotFoundException(`Vendor with ID ${data.vendorId} not found`);
         }
@@ -45,7 +69,10 @@ export class EquipmentService {
                 weight: data.weight,
                 dimensions: data.dimensions,
                 vendorId: data.vendorId,
-                insuranceId: data.insuranceId
+                insuranceId: data.insuranceId,
+                assetPubkey: nftCreation.transaction,
+                transaction: nftCreation.assetPubkey,
+                uri: nftCreation.uri
             }
         });
         

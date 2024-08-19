@@ -48,10 +48,21 @@ let ProjectService = class ProjectService {
                 userId: user.id
             }
         });
-        return projects.map(project => ({
-            ...project,
-            apiKey: this.encryptionService.decrypt(project.apiKey),
-        }));
+        return projects.map(project => {
+            try {
+                return {
+                    ...project,
+                    apiKey: this.encryptionService.decrypt(project.apiKey),
+                };
+            }
+            catch (error) {
+                console.error(`Failed to decrypt API key for project ${project.id}:`, error);
+                return {
+                    ...project,
+                    apiKey: 'DECRYPTION_FAILED',
+                };
+            }
+        });
     }
     async getProject(apiKey) {
         console.log('Getting project with API key:', apiKey);

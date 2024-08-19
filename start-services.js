@@ -24,4 +24,4 @@ function startService(name) {
   });
 }
 
-['auth', 'vendors', 'lenders', 'borrowers'].forEach(startService);
+['auth', 'lenders', 'borrower', 'vendors'].forEach(startService);

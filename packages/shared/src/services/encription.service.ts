@@ -1,33 +1,51 @@
 import { Injectable } from '@nestjs/common';
-import * as crypto from 'crypto';
+import CryptoJS from 'crypto-js';
 
 @Injectable()
 export class EncryptionService {
-  private algorithm = 'aes-256-cbc';
-  private key: Buffer;
-  private iv: Buffer;
-
+  private encryptionKey = process.env.ENCRYPTION_KEY;
   constructor() {
     const encryptionKey = process.env.ENCRYPTION_KEY;
-    const ivKey = process.env.IV_KEY;
-    if (!encryptionKey || !ivKey) {
+    if (!encryptionKey) {
       throw new Error('ENCRYPTION_KEY or IV_KEY environment variable is not set');
     }
-    this.key = Buffer.from(encryptionKey, 'hex');
-    this.iv = Buffer.from(ivKey, 'hex');
   }
 
-  encrypt(text: string): string {
-    const cipher = crypto.createCipheriv(this.algorithm, this.key, this.iv);
-    let encrypted = cipher.update(text, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    return encrypted;
+  encrypt(apiKey: string): string {
+    const iv = CryptoJS.lib.WordArray.random(128 / 8);
+  
+    const encrypted = CryptoJS.AES.encrypt(apiKey, this.encryptionKey, {
+      iv: iv,
+      mode: CryptoJS.mode.CBC,
+      padding: CryptoJS.pad.Pkcs7
+    });
+  
+    const result = iv.toString() + encrypted.toString();
+    return result;
   }
 
-  decrypt(text: string): string {
-    const decipher = crypto.createDecipheriv(this.algorithm, this.key, this.iv);
-    let decrypted = decipher.update(text, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
-    return decrypted;
+  decrypt(encryptedApiKey: string): string {
+    try {
+      const ivLength = 32;
+      const iv = CryptoJS.enc.Hex.parse(encryptedApiKey.slice(0, ivLength));
+      const encryptedData = encryptedApiKey.slice(ivLength);
+  
+      const decrypted = CryptoJS.AES.decrypt(encryptedData, this.encryptionKey, {
+        iv: iv,
+        mode: CryptoJS.mode.CBC,
+        padding: CryptoJS.pad.Pkcs7
+      });
+  
+      const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8);
+  
+      if (!decryptedStr) {
+        throw new Error('Decryption failed');
+      }
+  
+      return decryptedStr;
+    } catch (error) {
+      console.error('Decryption error:', error);
+      throw error;
+    }
   }
 }
