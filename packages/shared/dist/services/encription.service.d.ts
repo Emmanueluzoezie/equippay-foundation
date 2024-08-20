@@ -1,6 +1,9 @@
 export declare class EncryptionService {
-    private encryptionKey;
+    private readonly logger;
+    private readonly algorithm;
+    private readonly key;
     constructor();
+    private deriveIV;
     encrypt(apiKey: string): string;
-    decrypt(encryptedApiKey: string): string;
+    decrypt(encryptedData: string): string;
 }

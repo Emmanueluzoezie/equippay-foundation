@@ -9,13 +9,19 @@ export class VendorService {
     constructor(
         private prisma: PrismaService,
         private projectService: ProjectService,
-        private encryptionService: EncryptionService
     ) { }
 
     async createVendor(apiKey: string, createVendorDto: CreateVendorDto): Promise<Vendor> {
 
         try {
+            console.log("started...")
             const project = await this.projectService.getProject(apiKey);
+            console.log("project:", project)
+
+            if(!project){
+                console.log("error getting project")
+                return
+            }
 
             const vendorMetadata: CreateCollection = {
                 fullName: createVendorDto.fullName,
@@ -26,7 +32,10 @@ export class VendorService {
                 image: ""
             };
 
+            console.log("creating collections")
             const collection = await createCoreCollection(vendorMetadata)
+
+            console.log(collection)
 
             const vendorData = {
                 fullName: createVendorDto.fullName,

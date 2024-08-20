@@ -38,7 +38,7 @@ let ProjectService = class ProjectService {
         });
         return project;
     }
-    async getAllUserProject(email) {
+    async getAllUserProject(apiKey, email) {
         const user = await this.user.getUserByEmail(email);
         if (!user) {
             throw new Error("User is not found");
@@ -50,25 +50,27 @@ let ProjectService = class ProjectService {
         });
         return projects.map(project => {
             try {
+                const decryptedApiKey = this.encryptionService.decrypt(project.apiKey);
                 return {
                     ...project,
-                    apiKey: this.encryptionService.decrypt(project.apiKey),
+                    apiKey: decryptedApiKey,
+                    decryptionStatus: 'SUCCESS'
                 };
             }
             catch (error) {
-                console.error(`Failed to decrypt API key for project ${project.id}:`, error);
+                console.log(`Failed to decrypt API key for project ${project.id}:`, error.stack);
                 return {
                     ...project,
-                    apiKey: 'DECRYPTION_FAILED',
+                    decryptionStatus: 'FAILED'
                 };
             }
         });
     }
     async getProject(apiKey) {
-        console.log('Getting project with API key:', apiKey);
         try {
             const encryptedApiKey = this.encryptionService.encrypt(apiKey);
             console.log('Encrypted API key:', encryptedApiKey);
+            console.log('API key:', apiKey);
             const project = await this.prisma.project.findUnique({
                 where: {
                     apiKey: encryptedApiKey

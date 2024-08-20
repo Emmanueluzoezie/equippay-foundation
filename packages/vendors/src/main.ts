@@ -5,7 +5,7 @@ import { Logger } from '@nestjs/common';
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
-  const port = process.env.LENDER_PORT  || 3008;
+  const port = process.env.VENDOR_PORT  || 3008;
   
   // Graceful shutdown
   process.on('SIGTERM', async () => {

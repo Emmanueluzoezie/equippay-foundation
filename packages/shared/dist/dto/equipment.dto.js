@@ -63,6 +63,18 @@ __decorate([
     __metadata("design:type", String)
 ], CreateEquipmentDto.prototype, "currency", void 0);
 __decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateEquipmentDto.prototype, "assetPubkey", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateEquipmentDto.prototype, "uri", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    __metadata("design:type", String)
+], CreateEquipmentDto.prototype, "transaction", void 0);
+__decorate([
     (0, class_validator_1.IsInt)(),
     (0, class_validator_1.Min)(0),
     (0, class_transformer_1.Type)(() => Number),

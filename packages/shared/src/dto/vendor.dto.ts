@@ -15,15 +15,6 @@ export class CreateVendorDto {
     wallet: string;
 
     @IsString()
-    transaction: string;
-
-    @IsString()
-    collectionPubkey: string;
-    
-    @IsString()
-    uri: string;
-
-    @IsString()
     @IsOptional()
     location?: string;
 

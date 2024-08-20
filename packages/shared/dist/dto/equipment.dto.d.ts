@@ -8,6 +8,9 @@ export declare class CreateEquipmentDto {
     installmentPrice?: number;
     numberOfInstallments?: number;
     currency: string;
+    assetPubkey: string;
+    uri: string;
+    transaction: string;
     stockQuantity: number;
     isActive: boolean;
     images: string[];

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { PrismaService, SharedModule } from 'shared';
+import { PrismaService, ProjectService, SharedModule } from 'shared';
 import { ConfigModule } from '@nestjs/config';
 import { join } from 'path';
 import { EquipmentService } from './equipment/equipment.service';
@@ -20,6 +20,6 @@ import { HealthController } from './health.controller';
     }),
   ],
   controllers: [HealthController],
-  providers: [PrismaService, EquipmentService, VendorService],
+  providers: [PrismaService, EquipmentService, VendorService, ProjectService],
 })
 export class AppModule {}
